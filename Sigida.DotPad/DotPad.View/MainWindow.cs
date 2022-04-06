@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotPad.View.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,17 +23,17 @@ namespace DotPad.View
         }
 
         /// <summary>
-        /// Срабатывает при изменении текста в поле ввода текста блокнота 
-        /// Уставливает параметры для объекта Notepad
-        /// Изменяет текст в status bar
+        /// Event: при изменении текста в блокноте
+        /// Set: параметры блокнота
+        /// Change: текст StatusBar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void StatusBarTextChanger(object sender, EventArgs e)
+        private void StatusBarTextChanger(object sender, EventArgs e)
         {
             var text = (TextBox)sender;
 
-            //var space = text.Text.Split(' ').Length - 1;
+            _notepad.Spaces = text.Text.Split(' ').Length - 1;
             
             _notepad.CurentLine = text.Lines.Length;
               
@@ -46,24 +47,9 @@ namespace DotPad.View
             statusBar.Items[1].Text = $"Ln {_notepad.CurentLine}, Col {_notepad.CurentColumn}";         
         }
 
-
-    }
-
-    class Notepad
-    {
-        private int _currentLine = 1;
-        public int Characters { get; set; }  
-        public int CurentLine
+        private void statusBarItemExtension_Click(object sender, EventArgs e)
         {
-            get => _currentLine;
-            set
-            {
-                if (value <= 0)
-                    _currentLine = 1;
-                else
-                    _currentLine = value;
-            }
+            InfoMessage.Show(_notepad.Characters, _notepad.Spaces);
         }
-        public int CurentColumn { get; set; }
     }
 }
