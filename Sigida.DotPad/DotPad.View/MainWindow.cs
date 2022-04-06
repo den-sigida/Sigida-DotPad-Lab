@@ -19,37 +19,42 @@ namespace DotPad.View
             InitializeComponent();
             _notepad = new Notepad();
 
-            textBoxRealm.TextChanged += StatusBarTextChanger;   
+            _notepad.CharactersCountChanged += StatusBarTextChanger;
         }
 
         /// <summary>
-        /// Event: при изменении текста в блокноте
-        /// Set: параметры блокнота
-        /// Change: текст StatusBar
+        /// Изменяет текст statusBar
+        /// </summary>
+        private void StatusBarTextChanger()
+        { 
+            statusBar.Items[1].Text = $"Ln {_notepad.CurentLine}, Col {_notepad.CurentColumn}";         
+        }
+        /// <summary>
+        /// Вызывает окно информации о тексте
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void StatusBarTextChanger(object sender, EventArgs e)
+        private void statusBarItemExtension_Click(object sender, EventArgs e)
+        {
+            InfoMessage.Show(_notepad.Characters, _notepad.Spaces);
+        }
+
+        /// <summary>
+        /// При изменении текста записывает новые данные в модель 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBoxRealm_TextChanged(object sender, EventArgs e)
         {
             var text = (TextBox)sender;
 
             _notepad.Spaces = text.Text.Split(' ').Length - 1;
-            
             _notepad.CurentLine = text.Lines.Length;
-              
-            if (text.Lines.Length != 0) 
+            if (text.Lines.Length != 0)
             {
                 _notepad.CurentColumn = text.Lines[_notepad.CurentLine - 1].Length;
             }
-         
-            _notepad.Characters = text.Text.Replace(" ","").Length;
-
-            statusBar.Items[1].Text = $"Ln {_notepad.CurentLine}, Col {_notepad.CurentColumn}";         
-        }
-
-        private void statusBarItemExtension_Click(object sender, EventArgs e)
-        {
-            InfoMessage.Show(_notepad.Characters, _notepad.Spaces);
+            _notepad.Characters = text.Text.Replace(" ", "").Length;
         }
     }
 }

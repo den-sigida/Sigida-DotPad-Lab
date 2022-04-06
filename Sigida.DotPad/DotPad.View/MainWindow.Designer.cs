@@ -89,6 +89,7 @@
             this.textBoxRealm.Name = "textBoxRealm";
             this.textBoxRealm.Size = new System.Drawing.Size(703, 395);
             this.textBoxRealm.TabIndex = 1;
+            this.textBoxRealm.TextChanged += new System.EventHandler(this.textBoxRealm_TextChanged);
             // 
             // MainWindow
             // 

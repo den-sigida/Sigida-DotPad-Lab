@@ -9,7 +9,16 @@ namespace DotPad.View.Models
     public class Notepad
     {
         private int _currentLine = 1;
-        public int Characters { get; set; }
+        private int _characrets;
+        public int Characters 
+        {
+            get => _characrets;
+            set
+            {
+                _characrets = value;
+                CharactersCountChanged?.Invoke();
+            }
+        }
         public int Spaces { get; set; }
         public int CurentLine
         {
@@ -23,5 +32,7 @@ namespace DotPad.View.Models
             }
         }
         public int CurentColumn { get; set; }
+        public delegate void NotepadHandler();
+        public event NotepadHandler CharactersCountChanged;
     }
 }
